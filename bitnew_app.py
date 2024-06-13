@@ -17,7 +17,7 @@ from tensorflow.keras.models import load_model
 # Load the LSTM model
 #model = load_model('btcprice_prediction_model.h5')
 
-model = load_model ('C:/Users/User/Documents/NorthCentralUniversity/ModelDeployment/bit/btcprice_prediction_model.h5')
+model = load_model ('btcprice_prediction_model.h5')
 # Load the MinMaxScaler
 scaler = MinMaxScaler()
 
@@ -63,7 +63,7 @@ def app():
             st.success('Predicted Bitcoin Price for the Next Day: ${:.2f}'.format(prediction[0, 0]))
 
             # Placeholder for loading the data (to be replaced with actual data loading)
-            data = pd.read_csv('C:/Users/User/Documents/NorthCentralUniversity/ModelDeployment/bit/data.csv')
+            data = pd.read_csv('data.csv')
             data['Date'] = pd.to_datetime(data['Date'])
             data.set_index('Date', inplace=True)
 
