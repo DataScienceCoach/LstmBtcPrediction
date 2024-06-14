@@ -19,7 +19,7 @@ model = load_model('btcprice_prediction_model.h5')
 scaler = MinMaxScaler()
 
 def app():
-    st.title('GM Analytics Next Day Bitcoin Price Prediction AI')
+    st.title('GM Analytics Auto Next Day Bitcoin Price Prediction AI')
     st.write('This app Auto collects the latest 60 days of Bitcoin close prices from Yahoo Finance and uses an LSTM model to predict the next day\'s close price.')
 
     if st.button('Fetch Latest Data and Predict'):
