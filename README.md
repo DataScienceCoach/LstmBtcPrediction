@@ -1,5 +1,5 @@
 **#LSTM, #Python, #ML, #PredictionModel, #Streamlit**
-**The "GM Analytics Next Day Bitcoin Price Prediction Model" **
+**The "GM Analytics Auto Next Day Bitcoin Price Prediction Model" **
 **
 https://nextdaybtcprice.streamlit.app/**
 
