@@ -53,7 +53,7 @@ def app():
                 st.success(f'Predicted Bitcoin Price for the Next Day: ${pred_price[0, 0]:.2f}')
 
                 # Placeholder for loading the data (to be replaced with actual data loading)
-                data = pd.read_csv('C:/Users/User/Documents/NorthCentralUniversity/ModelDeployment/bit/data.csv')
+                data = pd.read_csv('data.csv')
                 data['Date'] = pd.to_datetime(data['Date'])
                 data.set_index('Date', inplace=True)
 
