@@ -8,5 +8,6 @@ streamlit-option-menu==0.3.2
 scikit-learn==1.2.1
 matplotlib==3.7.0
 plotly==5.9.0
+yfinance==0.2.36
 
 
