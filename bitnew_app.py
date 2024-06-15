@@ -1,4 +1,3 @@
-
 import streamlit as st
 import yfinance as yf
 import pandas as pd
@@ -6,6 +5,7 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import load_model
 import plotly.graph_objs as go
+from datetime import timedelta
 
 # Function to fetch historical BTC data
 def fetch_btc_data(ticker='BTC-USD', period='70d'):
@@ -19,7 +19,7 @@ model = load_model('btcprice_prediction_model.h5')
 scaler = MinMaxScaler()
 
 def app():
-    st.title('GM Analytics Auto Next Day Bitcoin Price Prediction AI')
+    st.title('GM Analytics Next Day Bitcoin Price Prediction AI')
     st.write('This app Auto collects the latest 60 days of Bitcoin close prices from Yahoo Finance and uses an LSTM model to predict the next day\'s close price.')
 
     if st.button('Fetch Latest Data and Predict'):
@@ -35,6 +35,7 @@ def app():
                 return
 
             btc_close_prices = btc_data[['Close']]
+            last_date = btc_data.index[-1]  # Get the last date from the fetched data
 
             try:
                 last_60_days = btc_close_prices[-60:].values
@@ -50,7 +51,9 @@ def app():
                 pred_price_scaled = model.predict(X_test)
                 pred_price = scaler.inverse_transform(pred_price_scaled)
 
-                st.success(f'Predicted Bitcoin Price for the Next Day: ${pred_price[0, 0]:.2f}')
+                next_day = last_date + timedelta(days=1)  # Calculate the date for the next day
+
+                st.success(f'Predicted Bitcoin Price for {next_day.date()}: ${pred_price[0, 0]:.2f}')
 
                 # Placeholder for loading the data (to be replaced with actual data loading)
                 data = pd.read_csv('data.csv')
@@ -61,14 +64,15 @@ def app():
                 scaled_data = scaler.fit_transform(data[['Close']])
 
                 # Split the data into training and test sets
+                sequence_length = 60
                 training_data_len = int(len(data) * 0.8)
                 train_data = scaled_data[:training_data_len]
-                test_data = scaled_data[training_data_len - 60:]
+                test_data = scaled_data[training_data_len - sequence_length:]
 
                 # Prepare the input sequences and target values for testing
                 x_test, y_test = [], []
-                for i in range(60, len(test_data)):
-                    x_test.append(test_data[i - 60:i, 0])
+                for i in range(sequence_length, len(test_data)):
+                    x_test.append(test_data[i - sequence_length:i, 0])
                     y_test.append(test_data[i, 0])
 
                 # Convert the input sequences and target values to NumPy arrays
@@ -115,8 +119,3 @@ def app():
 
 if __name__ == '__main__':
     app()
-
-# Open a terminal or command prompt, navigate to the directory containing btc_prediction_app.py, and run:
-# streamlit run btc_prediction_app.py
-
-# streamlit run "C:/Users/User/Documents/NorthCentralUniversity/ModelDeployment/bit/autobtcprediction_app.py"
